@@ -23,16 +23,35 @@ import com.netflix.spinnaker.fiat.model.resources.Resource;
 import com.netflix.spinnaker.fiat.model.resources.ResourceType;
 import lombok.Data;
 
+/**
+ * A ResourceGroup provides additional rule-based permissions to resources.
+ *
+ * <p>A ResourceGroup allows for encoding of permissions for an AccessControlled resource where
+ * those permissions can be derived from that resource rather than explicitly encoded as properties
+ * on the resource.
+ *
+ * <p>As a concrete example, {@see PrefixResourceGroup} which allows for defining common permissions
+ * on resources that start with a common prefix.
+ */
 @Data
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "resourceGroupType")
-@JsonSubTypes(@JsonSubTypes.Type(value = PrefixResourceGroup.class, name = "Prefix"))
+@JsonSubTypes(@JsonSubTypes.Type(value = PrefixResourceGroup.class, name = "PREFIX"))
 public abstract class ResourceGroup {
+  /**
+   * Whether the supplied resource matches this ResourceGroup.
+   *
+   * @param resource the resource to check
+   * @return true if the permissions on this ResourceGroup should be applied to the resource.
+   */
   public abstract boolean contains(Resource.AccessControlled resource);
 
+  /** The type of resource this ResourceGroup applies to. */
   private ResourceType resourceType;
 
+  /** The concrete type of this ResourceGroup. */
   // needed for serialization
   private ResourceGroupType resourceGroupType;
 
+  /** The Permissions that should get added to resources that match this ResourceGroup. */
   private Permissions permissions = Permissions.EMPTY;
 }

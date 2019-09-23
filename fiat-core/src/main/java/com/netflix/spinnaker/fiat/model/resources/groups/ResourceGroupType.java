@@ -17,5 +17,5 @@
 package com.netflix.spinnaker.fiat.model.resources.groups;
 
 public enum ResourceGroupType {
-  Prefix
+  PREFIX
 }

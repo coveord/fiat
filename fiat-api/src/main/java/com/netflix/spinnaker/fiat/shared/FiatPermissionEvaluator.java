@@ -225,7 +225,7 @@ public class FiatPermissionEvaluator implements PermissionEvaluator {
                             username, resourceName, resourceType),
                         () ->
                             fiatService.hasAuthorization(
-                                username, resourceType, resourceName, "CREATE"));
+                                username, resourceType, resourceName, Authorization.CREATE.name()));
                   })
               .call();
       if (response.getStatus() == HttpServletResponse.SC_OK) {

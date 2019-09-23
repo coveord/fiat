@@ -21,6 +21,10 @@ import com.netflix.spinnaker.fiat.model.resources.Resource;
 import com.netflix.spinnaker.fiat.model.resources.groups.ResourceGroup;
 import java.util.Set;
 
+/**
+ * A GroupResolutionStrategy is responsible supplying the final set of Permissions for a Resource
+ * taking into consider any matching ResourceGroups.
+ */
 public interface GroupResolutionStrategy {
   /**
    * Resolve the permissions of the resource taking group permissions and resource permissions into

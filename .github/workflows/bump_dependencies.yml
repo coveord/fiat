@@ -11,6 +11,11 @@ jobs:
     steps:
     # Halyard releases are separate from Spinnaker releases so we need to
     # exclude Halyard from bump deps when targeting services release-* branches.
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
+      with:
+        egress-policy: audit
+
     - name: decide bumpdep target repositories
       id: bumpdep_targets
       run: |
@@ -20,7 +25,7 @@ jobs:
           REPOS+=",halyard"
         fi
         echo ::set-output name=REPOS::$(echo -e "${REPOS}")
-    - uses: spinnaker/bumpdeps@master
+    - uses: spinnaker/bumpdeps@e80ad47c2a38b2c0709ab0ee9b916a263af05b6d # master
       with:
         ref: ${{ github.event.client_payload.ref }}
         baseBranch: ${{ github.event.client_payload.branch }}
